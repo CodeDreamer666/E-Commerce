@@ -1,0 +1,192 @@
+// Prisma schema for Better Auth
+// learn more: https://better-auth.com/docs/concepts/database
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+// NOTE: When using mysql or sqlserver, uncomment the //@db.Text annotations in model Account below
+// Further reading:
+// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id                   Int            @id @default(autoincrement())
+  title                String
+  description          String
+  price                Decimal        @db.Decimal(10, 2)
+  discountedPercentage Decimal        @db.Decimal(10, 2)
+  rating               Decimal        @db.Decimal(4, 2)
+  stock                Int
+  warrantyInformation  String
+  shippingInformation  String
+  availabilityStatus   String
+  returnPolicy         String
+  minimumOrderQuantity Int
+  image                String
+  review               Review[]
+  cart                 Cart[]
+  checkoutItems        CheckoutItem[]
+  orderItems           OrderItem[]
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Decimal  @db.Decimal(4, 2)
+  comment   String
+  name      String
+  email     String
+  createdAt DateTime @default(now())
+  product   Product? @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Cart {
+  id         Int     @id @default(autoincrement())
+  userId     String
+  productId  Int
+  user       User    @relation(fields: [userId], references: [id])
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Int
+  totalPrice Decimal @db.Decimal(10, 2)
+  isSelected Boolean @default(false)
+
+  @@unique([userId, productId])
+}
+
+model CheckoutSession {
+  id             String                @id @default(uuid())
+  userId         String
+  user           User                  @relation(fields: [userId], references: [id])
+  status         CheckoutSessionStatus @default(DRAFT)
+  fullName       String?               @db.VarChar(20)
+  phoneNumber    String?               @db.VarChar(8)
+  deliveryMethod DeliveryMethod?
+  paymentMethod  PaymentMethod?
+  checkoutItems  CheckoutItem[]
+
+  @@unique([userId, status])
+}
+
+model CheckoutItem {
+  id                String          @id @default(uuid())
+  checkoutSessionId String
+  CheckoutSession   CheckoutSession @relation(fields: [checkoutSessionId], references: [id])
+  productId         Int
+  product           Product         @relation(fields: [productId], references: [id])
+  quantity          Int
+  totalPrice        Decimal         @db.Decimal(10, 2)
+}
+
+model Order {
+  id             String         @id @default(uuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id])
+  status         OrderStatus    @default(PENDING)
+  fullName       String         @db.VarChar(20)
+  phoneNumber    String         @db.VarChar(8)
+  deliveryMethod DeliveryMethod
+  paymentMethod  PaymentMethod
+  totalPrice     Decimal        @db.Decimal(10, 4)
+  orderItems     OrderItem[]
+}
+
+model OrderItem {
+  id         String  @id @default(uuid())
+  orderId    String
+  Order      Order   @relation(fields: [orderId], references: [id])
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Int
+  totalPrice Decimal @db.Decimal(10, 2)
+}
+
+model User {
+  id               String            @id
+  name             String //@db.Text
+  email            String
+  emailVerified    Boolean           @default(false)
+  image            String? //@db.Text
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now()) @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  cart             Cart[]
+  checkoutSessions CheckoutSession[]
+  orders           Order[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String? //@db.Text
+  userAgent String? //@db.Text
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String //@db.Text
+  providerId            String //@db.Text
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String? //@db.Text
+  refreshToken          String? //@db.Text
+  idToken               String? //@db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String? //@db.Text
+  password              String? //@db.Text
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String //@db.Text
+  value      String //@db.Text
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("verification")
+}
+
+enum CheckoutSessionStatus {
+  DRAFT
+  COMPLETED
+  CANCELLED
+}
+
+enum DeliveryMethod {
+  Standard
+  Express
+}
+
+enum PaymentMethod {
+  Cash
+  PayPal
+  Card
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
