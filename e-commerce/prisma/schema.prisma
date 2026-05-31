@@ -30,7 +30,6 @@ model Product {
   image                String
   review               Review[]
   cart                 Cart[]
-  checkoutItems        CheckoutItem[]
   orderItems           OrderItem[]
 }
 
@@ -56,30 +55,6 @@ model Cart {
   isSelected Boolean @default(false)
 
   @@unique([userId, productId])
-}
-
-model CheckoutSession {
-  id             String                @id @default(uuid())
-  userId         String
-  user           User                  @relation(fields: [userId], references: [id])
-  status         CheckoutSessionStatus @default(DRAFT)
-  fullName       String?               @db.VarChar(20)
-  phoneNumber    String?               @db.VarChar(8)
-  deliveryMethod DeliveryMethod?
-  paymentMethod  PaymentMethod?
-  checkoutItems  CheckoutItem[]
-
-  @@unique([userId, status])
-}
-
-model CheckoutItem {
-  id                String          @id @default(uuid())
-  checkoutSessionId String
-  CheckoutSession   CheckoutSession @relation(fields: [checkoutSessionId], references: [id])
-  productId         Int
-  product           Product         @relation(fields: [productId], references: [id])
-  quantity          Int
-  totalPrice        Decimal         @db.Decimal(10, 2)
 }
 
 model Order {
@@ -116,7 +91,6 @@ model User {
   sessions         Session[]
   accounts         Account[]
   cart             Cart[]
-  checkoutSessions CheckoutSession[]
   orders           Order[]
 
   @@unique([email])
@@ -166,12 +140,6 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
-}
-
-enum CheckoutSessionStatus {
-  DRAFT
-  COMPLETED
-  CANCELLED
 }
 
 enum DeliveryMethod {

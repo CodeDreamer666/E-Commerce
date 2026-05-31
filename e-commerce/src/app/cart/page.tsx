@@ -222,23 +222,6 @@ export default function CartPage() {
         }
     });
 
-    // checkout mutation
-    const checkout = api.checkout.checkout.useMutation({
-        onSuccess: () => {
-            router.push("/checkout");
-        },
-
-        onError: (error) => {
-            handleTRPCError({
-                error, setMessage, setIsSuccess, router, pathname
-            });
-        },
-
-        onSettled: () => {
-            utils.invalidate();
-        }
-    });
-
     if (isLoading) return <Loader />
 
     if (error || !cart) return <ServerError />
@@ -452,8 +435,7 @@ export default function CartPage() {
                         <p className="text-gray-800">${totalPrice.toFixed(2)}</p>
                     </section>
                     <button
-                        disabled={checkout.isPending}
-                        onClick={() => checkout.mutate()}
+                        onClick={() => router.push("/checkout")}
                         className={`
                               disabled:cursor-not-allowed mt-2 flex gap-2 justify-center 
                               items-center w-full bg-blue-400 font-semibold rounded-md text-lg 

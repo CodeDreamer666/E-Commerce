@@ -1,7 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { authClient } from "~/server/better-auth/client";
-import Image from "next/image";
 
 export default function SignInClient() {
     const searchParams = useSearchParams();

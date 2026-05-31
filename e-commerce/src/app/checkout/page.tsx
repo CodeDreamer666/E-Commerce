@@ -1,40 +1,35 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import FormTitle from "~/app/components/shared/FormTitle";
 import useStatusMessage from "~/app/hooks/useStatusMessage";
 import StatusMessage from "~/app/components/shared/StatusMessageClient";
 import Input from "~/app/components/shared/Input";
 import { api } from "~/trpc/react";
-import Link from "next/link";
 import { z } from "zod"
 import Loader from "~/app/components/shared/Loader";
 import ServerError from "~/app/components/shared/ServerError";
 import handleTRPCError from "~/app/libs/handleTRPCError";
-import type { DeliveryMethod, PaymentMethod } from "generated/prisma/enums";
+import LoadingIcon from "../components/shared/LoadingIcon";
 
 export default function ShippingAddress() {
-    const [formInput, setFormInput] = useState<{
-        fullName: string,
-        phoneNumber: string,
-        deliveryMethod: DeliveryMethod | "",
-        paymentMethod: PaymentMethod | ""
-    }>({
+    const [formInput, setFormInput] = useState({
         fullName: "",
         phoneNumber: "",
         deliveryMethod: "",
         paymentMethod: ""
     })
+    const [shippingFee, setShippinhFee] = useState(0);
 
     const pathname = usePathname();
     const router = useRouter();
     const utils = api.useUtils();
 
     const {
-        data: checkoutInfo,
+        data: checkoutItemsInfo,
         isLoading,
         error
-    } = api.checkout.getCheckoutInfo.useQuery();
+    } = api.checkout.getCheckoutItems.useQuery();
 
     const {
         isSuccess,
@@ -44,9 +39,9 @@ export default function ShippingAddress() {
     } = useStatusMessage();
 
     // Submit mutation
-    const submitShippingAddressInfo = api.checkout.submitCheckoutInfo.useMutation({
-        onSuccess: () => {
-            router.push("/checkout/review");
+    const placeOrder = api.order.placeOrder.useMutation({
+        onSuccess: (newData) => {
+            router.replace(`/order/success/${newData.orderId}`)
         },
 
         onError: (error) => {
@@ -59,21 +54,6 @@ export default function ShippingAddress() {
             await utils.invalidate()
         }
     });
-
-    useEffect(() => {
-        if (!checkoutInfo) return;
-
-        setFormInput(prev => {
-            return {
-                ...prev,
-                fullName: checkoutInfo.fullName,
-                phoneNumber: checkoutInfo.phoneNumber,
-                deliveryMethod: checkoutInfo.deliveryMethod as DeliveryMethod | "",
-                paymentMethod: checkoutInfo.paymentMethod as PaymentMethod || ""
-            }
-        });
-
-    }, [checkoutInfo])
 
     const inputList = [
         {
@@ -113,7 +93,11 @@ export default function ShippingAddress() {
 
     if (isLoading) return <Loader />
 
-    if (error || !checkoutInfo) return <ServerError />
+    if (error || !checkoutItemsInfo) return <ServerError />
+
+    const subtotal = checkoutItemsInfo.reduce((acc, currentValue) => {
+        return acc + Number(currentValue.totalPrice)
+    }, 0);
 
     return (
         <section className="bg-[linear-gradient(to_bottom_right,#ffffff,#f5f5f5)] mt-16 flex flex-col justify-center items-center w-full min-h-[90vh] px-4 pb-6 pt-4">
@@ -129,15 +113,6 @@ export default function ShippingAddress() {
 
             <section className="w-full flex flex-col gap-2 max-w-md mx-auto">
 
-                <section className="flex justify-end mb-2">
-                    <Link
-                        href="/cart"
-                        className="px-4 py-2 bg-blue-600 text-center text-white font-semibold rounded-md text-lg shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-[0.98]"
-                    >
-                        Back to Cart
-                    </Link>
-                </section>
-
                 <form
                     onSubmit={(event) => {
                         event.preventDefault();
@@ -151,19 +126,14 @@ export default function ShippingAddress() {
                             return;
                         }
 
-                        submitShippingAddressInfo.mutate(formInput as {
-                            fullName: string,
-                            phoneNumber: string,
-                            deliveryMethod: DeliveryMethod,
-                            paymentMethod: PaymentMethod
-                        })
+                        placeOrder.mutate(result.data);
                     }}
                     className="shadow-md rounded-md flex flex-col p-4 "
                 >
 
                     <FormTitle
-                        heading="Shipping Address"
-                        subHeading="Enter your delivery details below"
+                        heading="Delivery Information"
+                        subHeading="Enter your contact and delivery details"
                     />
 
                     {inputList.map((input) => (
@@ -180,17 +150,25 @@ export default function ShippingAddress() {
 
                     <section className="flex flex-col mb-4">
                         <div className="flex gap-1 mb-2">
-                            <label htmlFor="delivery-method" className="font-semibold text">Delivery Method</label>
+                            <label htmlFor="delivery-method" className="font-semibold text">Delivery Option</label>
                             <span className="text-red-500">*</span>
                         </div>
                         <select
                             value={formInput.deliveryMethod}
-                            onChange={(event) => setFormInput(prev => {
-                                return {
-                                    ...prev,
-                                    deliveryMethod: event.target.value as DeliveryMethod || ""
+                            onChange={(event) => {
+                                if (event.target.value === "Standard") {
+                                    setShippinhFee(5)
+                                } else if (event.target.value === "Express") {
+                                    setShippinhFee(12)
                                 }
-                            })}
+
+                                setFormInput(prev => {
+                                    return {
+                                        ...prev,
+                                        deliveryMethod: event.target.value
+                                    }
+                                })
+                            }}
                             id="delivery-method"
                             name="delivery-method"
                             className="transition-all duration-300 ease-in-out outline-none cursor-text focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:shadow-md border-gray-300 border w-full rounded-md h-10 px-4 text-sm"
@@ -211,7 +189,7 @@ export default function ShippingAddress() {
                             onChange={(event) => setFormInput(prev => {
                                 return {
                                     ...prev,
-                                    paymentMethod: event.target.value as PaymentMethod || ""
+                                    paymentMethod: event.target.value
                                 }
                             })}
                             id="payment-method"
@@ -225,10 +203,95 @@ export default function ShippingAddress() {
                         </select>
                     </section>
 
+                    <FormTitle
+                        heading="Order Summary"
+                        subHeading="Review your selected items before completing your purchase"
+                    />
+
+                    <section className="mb-4 grid xs:mx-auto md:max-w-4xl">
+                        {checkoutItemsInfo.map(({ totalPrice, quantity, product }, index) => {
+                            return (
+                                <section key={index} className="flex flex-col gap-4 xs:grid xs:grid-cols-2 xs:gap-2 xs:justify-center xs:items-center sm:grid-cols-[200px_1fr_180px] sm:gap-4 md:grid-cols-[180px_1fr_150px_150px]">
+
+                                    <img
+                                        src={product.image}
+                                        className="object-contain max-h-50 mx-auto"
+                                        alt={`A picture of ${product.title}`}
+                                    />
+
+                                    <h2 className="hidden sm:block text-[26px] font-semibold text-gray-900">{product.title}</h2>
+
+                                    <div className="flex flex-col gap-2 md:hidden">
+                                        <h2 className="text-[26px] font-semibold text-gray-900 sm:hidden">{product.title}</h2>
+
+                                        <p className="flex items-center gap-2 text-[20px]">
+                                            <span className="text-gray-500 font-medium">Quantity:</span>
+                                            <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
+                                                {quantity}
+                                            </span>
+                                        </p>
+
+                                        <p className="flex items-center gap-2 text-[20px]">
+                                            <span className="text-gray-500 font-medium">Subtotal:</span>
+                                            <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
+                                                {Number(totalPrice)}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <p className="hidden md:flex items-center gap-2 text-[20px]">
+                                        <span className="text-gray-500 font-medium">Quantity:</span>
+                                        <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
+                                            {quantity}
+                                        </span>
+                                    </p>
+
+
+                                    <p className="hidden md:flex items-center gap-2 text-[20px]">
+                                        <span className="text-gray-500 font-medium">Subtotal:</span>
+                                        <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
+                                            {Number(totalPrice)}
+                                        </span>
+                                    </p>
+
+                                </section>
+                            )
+                        })}
+                    </section>
+
+                    <section className="mt-6 border-t border-gray-200 pt-4">
+                        <div className="space-y-3">
+
+                            <div className="flex justify-between text-gray-600">
+                                <span>Subtotal</span>
+                                <span>${subtotal.toFixed(2)}</span>
+                            </div>
+
+                            <div className="flex justify-between text-gray-600">
+                                <span>Shipping</span>
+                                <span>${shippingFee.toFixed(2)}</span>
+                            </div>
+
+                            <div className="border-t border-gray-200 pt-3 flex justify-between text-xl font-semibold text-gray-900">
+                                <span>Total</span>
+                                <span>
+                                    ${(subtotal + shippingFee).toFixed(2)}
+                                </span>
+                            </div>
+
+                        </div>
+                    </section>
+
                     <button
                         type="submit"
-                        className="cursor-pointer px-4 py-2 mt-4 block text-center w-full bg-blue-600 text-white font-medium rounded-md text-lg shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-[0.98]">
-                        Next
+                        disabled={placeOrder.isPending}
+                        className="cursor-pointer disabled:cursor-not-allowed px-4 py-2 mt-8 block text-center w-full bg-blue-600 text-white font-medium rounded-md text-lg shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-[0.98]">
+                        {placeOrder.isPending ? (
+                            <div className="flex items-center gap-2">
+                                <LoadingIcon />
+                                <p>Completing order...</p>
+                            </div>
+                        ) : "Complete order"}
                     </button>
                 </form>
             </section>
