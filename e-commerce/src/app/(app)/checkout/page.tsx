@@ -88,8 +88,12 @@ export default function ShippingAddress() {
     const schema = z.object({
         fullName: z.string().trim().min(1, "Min 1 character for full name").max(20, "Max 20 characters for full name"),
         phoneNumber: z.coerce.number().int().positive().min(10000000, "Phone number must be exactly 8 digits").max(99999999, "Phone number must be exactly 8 digits"),
-        deliveryMethod: z.enum(["Standard", "Express"], "Please select a delivery method"),
-        paymentMethod: z.enum(["Cash", "PayPal", "Card"], "Please select a payment method")
+        deliveryMethod: z.enum(["Standard", "Express"], {
+            errorMap: () => ({ message: "Please select a delivery method" }),
+        }),
+        paymentMethod: z.enum(["Cash", "PayPal", "Card"], {
+            errorMap: () => ({ message: "Please select a payment method" }),
+        }),
     })
 
     if (isLoading) return <Loader />
