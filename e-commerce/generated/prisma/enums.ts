@@ -9,15 +9,6 @@
 * 🟢 You can import this file directly.
 */
 
-export const CheckoutSessionStatus = {
-  DRAFT: 'DRAFT',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
-} as const
-
-export type CheckoutSessionStatus = (typeof CheckoutSessionStatus)[keyof typeof CheckoutSessionStatus]
-
-
 export const DeliveryMethod = {
   Standard: 'Standard',
   Express: 'Express'
@@ -36,7 +27,6 @@ export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
 
 
 export const OrderStatus = {
-  PENDING: 'PENDING',
   PAID: 'PAID',
   CANCELLED: 'CANCELLED'
 } as const

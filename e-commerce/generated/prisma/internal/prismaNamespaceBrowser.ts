@@ -54,8 +54,6 @@ export const ModelName = {
   Product: 'Product',
   Review: 'Review',
   Cart: 'Cart',
-  CheckoutSession: 'CheckoutSession',
-  CheckoutItem: 'CheckoutItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
   User: 'User',
@@ -124,30 +122,6 @@ export const CartScalarFieldEnum = {
 export type CartScalarFieldEnum = (typeof CartScalarFieldEnum)[keyof typeof CartScalarFieldEnum]
 
 
-export const CheckoutSessionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  status: 'status',
-  fullName: 'fullName',
-  phoneNumber: 'phoneNumber',
-  deliveryMethod: 'deliveryMethod',
-  paymentMethod: 'paymentMethod'
-} as const
-
-export type CheckoutSessionScalarFieldEnum = (typeof CheckoutSessionScalarFieldEnum)[keyof typeof CheckoutSessionScalarFieldEnum]
-
-
-export const CheckoutItemScalarFieldEnum = {
-  id: 'id',
-  checkoutSessionId: 'checkoutSessionId',
-  productId: 'productId',
-  quantity: 'quantity',
-  totalPrice: 'totalPrice'
-} as const
-
-export type CheckoutItemScalarFieldEnum = (typeof CheckoutItemScalarFieldEnum)[keyof typeof CheckoutItemScalarFieldEnum]
-
-
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -156,7 +130,9 @@ export const OrderScalarFieldEnum = {
   phoneNumber: 'phoneNumber',
   deliveryMethod: 'deliveryMethod',
   paymentMethod: 'paymentMethod',
-  totalPrice: 'totalPrice'
+  totalPrice: 'totalPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]

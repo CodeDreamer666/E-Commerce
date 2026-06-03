@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, redirect } from "next/navigation";
 import FormTitle from "~/app/components/shared/FormTitle";
 import useStatusMessage from "~/app/hooks/useStatusMessage";
 import StatusMessage from "~/app/components/shared/StatusMessageClient";
@@ -10,7 +10,8 @@ import { z } from "zod"
 import Loader from "~/app/components/shared/Loader";
 import ServerError from "~/app/components/shared/ServerError";
 import handleTRPCError from "~/app/libs/handleTRPCError";
-import LoadingIcon from "../components/shared/LoadingIcon";
+import LoadingIcon from "../../components/shared/LoadingIcon";
+import { TRPCClientError } from "@trpc/client";
 
 export default function ShippingAddress() {
     const [formInput, setFormInput] = useState({
@@ -92,6 +93,12 @@ export default function ShippingAddress() {
     })
 
     if (isLoading) return <Loader />
+
+    if (error instanceof TRPCClientError) {
+        if (error.data.code === "BAD_REQUEST") {
+            return redirect("/cart")
+        }
+    }
 
     if (error || !checkoutItemsInfo) return <ServerError />
 
@@ -211,7 +218,7 @@ export default function ShippingAddress() {
                     <section className="mb-4 grid xs:mx-auto md:max-w-4xl">
                         {checkoutItemsInfo.map(({ totalPrice, quantity, product }, index) => {
                             return (
-                                <section key={index} className="flex flex-col gap-4 xs:grid xs:grid-cols-2 xs:gap-2 xs:justify-center xs:items-center sm:grid-cols-[200px_1fr_180px] sm:gap-4 md:grid-cols-[180px_1fr_150px_150px]">
+                                <section key={index} className="flex flex-col gap-4 xs:grid xs:grid-cols-2 xs:gap-2 xs:justify-center xs:items-center ">
 
                                     <img
                                         src={product.image}
@@ -219,10 +226,8 @@ export default function ShippingAddress() {
                                         alt={`A picture of ${product.title}`}
                                     />
 
-                                    <h2 className="hidden sm:block text-[26px] font-semibold text-gray-900">{product.title}</h2>
-
-                                    <div className="flex flex-col gap-2 md:hidden">
-                                        <h2 className="text-[26px] font-semibold text-gray-900 sm:hidden">{product.title}</h2>
+                                    <div className="flex flex-col gap-2">
+                                        <h2 className="text-[26px] font-semibold text-gray-900">{product.title}</h2>
 
                                         <p className="flex items-center gap-2 text-[20px]">
                                             <span className="text-gray-500 font-medium">Quantity:</span>
@@ -238,22 +243,6 @@ export default function ShippingAddress() {
                                             </span>
                                         </p>
                                     </div>
-
-                                    <p className="hidden md:flex items-center gap-2 text-[20px]">
-                                        <span className="text-gray-500 font-medium">Quantity:</span>
-                                        <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
-                                            {quantity}
-                                        </span>
-                                    </p>
-
-
-                                    <p className="hidden md:flex items-center gap-2 text-[20px]">
-                                        <span className="text-gray-500 font-medium">Subtotal:</span>
-                                        <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
-                                            {Number(totalPrice)}
-                                        </span>
-                                    </p>
-
                                 </section>
                             )
                         })}
@@ -287,7 +276,7 @@ export default function ShippingAddress() {
                         disabled={placeOrder.isPending}
                         className="cursor-pointer disabled:cursor-not-allowed px-4 py-2 mt-8 block text-center w-full bg-blue-600 text-white font-medium rounded-md text-lg shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-[0.98]">
                         {placeOrder.isPending ? (
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-center gap-2">
                                 <LoadingIcon />
                                 <p>Completing order...</p>
                             </div>

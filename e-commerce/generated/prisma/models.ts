@@ -11,8 +11,6 @@
 export type * from './models/Product'
 export type * from './models/Review'
 export type * from './models/Cart'
-export type * from './models/CheckoutSession'
-export type * from './models/CheckoutItem'
 export type * from './models/Order'
 export type * from './models/OrderItem'
 export type * from './models/User'

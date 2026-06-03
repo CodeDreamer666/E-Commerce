@@ -1,12 +1,12 @@
 "use client"
 import { api } from "~/trpc/react"
-import Loader from "../components/shared/Loader";
-import ServerError from "../components/shared/ServerError";
+import Loader from "../../components/shared/Loader";
+import ServerError from "../../components/shared/ServerError";
 import { useRouter, usePathname } from "next/navigation";
-import StatusMessage from "../components/shared/StatusMessageClient";
-import useStatusMessage from "../hooks/useStatusMessage";
+import StatusMessage from "../../components/shared/StatusMessageClient";
+import useStatusMessage from "../../hooks/useStatusMessage";
 import { useState } from "react";
-import handleTRPCError from "../libs/handleTRPCError";
+import handleTRPCError from "../../libs/handleTRPCError";
 import React from "react";
 import Link from "next/link";
 
@@ -307,64 +307,96 @@ export default function CartPage() {
                                 </button>
                             </div>
 
-                            <div className="grid xs:grid-cols-[150px_1fr] xs:items-center sm:grid-cols-[200px_1fr_120px] sm:items-center sm:gap-2 md:grid-cols-[200px_1fr_180px_120px] md:gap-4 md:items-center lg:grid-cols-[40px_160px_1fr_120px_120px_140px_140px] lg:gap-6 lg:max-w-300 lg:mx-auto">
-                                <div className="min-w-0">
-                                    <img
-                                        className="w-full max-w-37.5 mx-auto object-contain"
-                                        src={product.image}
-                                        alt={`A picture of ${product.title}`}
-                                    />
-                                </div>
+                            <div className="flex flex-col py-4 px-2 xs:grid xs:items-center xs:grid-cols-2 sm:grid-cols-4 sm:gap-6">
+                                <img
+                                    className="w-full max-w-37.5 mx-auto object-contain"
+                                    src={product.image}
+                                    alt={`A picture of ${product.title}`}
+                                />
 
-                                <div className="min-w-0">
-                                    <h1 className="font-semibold text-2xl mx mb-2">{product.title}</h1>
+                                <h1 className="font-semibold text-2xl mx mb-2 xs:hidden sm:block">{product.title}</h1>
 
-                                    <div className="flex my-4 max-xs:justify-between max-xs:items-center xs:flex-row xs:my-2 xs:gap-4 lg:hidden">
-                                        <section className="flex flex-col xs:pl-4 md:hidden">
-                                            <div className="flex gap-2 text-lg">
-                                                <p className="font-semibold">Each: </p>
-                                                <p className="text-red-600 font-semibold">${Number(product.price.toFixed(2))}</p>
-                                            </div>
-                                            <div className="flex gap-2 text-lg">
-                                                <p className="font-semibold">Subtotal:</p>
-                                                <p className="text-red-600 font-semibold">${Number(totalPrice.toFixed(2))}</p>
-                                            </div>
-                                        </section>
+                                <div className="flex justify-between xs:flex-col xs:gap-2">
+                                    <h1 className="font-semibold hidden xs:block sm:hidden text-2xl">{product.title}</h1>
 
-                                        <section className="flex gap-2 xs:my-4 xs:pl-4 sm:hidden">
-                                            <button
-                                                onClick={() => {
-                                                    updateCartItemQuantity.mutate({
-                                                        productId, action: "decrease"
+                                    <section className="flex flex-col">
+                                        <div className="flex gap-2 text-lg">
+                                            <p className="font-semibold">Each: </p>
+                                            <p className="text-red-600 font-semibold">${Number(product.price.toFixed(2))}</p>
+                                        </div>
+                                        <div className="flex gap-2 text-lg">
+                                            <p className="font-semibold">Subtotal:</p>
+                                            <p className="text-red-600 font-semibold">${Number(totalPrice.toFixed(2))}</p>
+                                        </div>
+                                    </section>
 
-                                                    })
-                                                }}
-                                                disabled={quantity === 1 || updateCartItemQuantity.isPending}
-                                                className={`
+                                    <section className="flex gap-2 sm:hidden">
+                                        <button
+                                            onClick={() => {
+                                                updateCartItemQuantity.mutate({
+                                                    productId, action: "decrease"
+
+                                                })
+                                            }}
+                                            disabled={quantity === 1 || updateCartItemQuantity.isPending}
+                                            className={`
                                                     font-semibold flex items-center justify-center 
                                                     text-[20px] bg-gray-400 disabled:cursor-not-allowed 
                                                   hover:bg-gray-500 cursor-pointer transition-all duration-300 
                                                     rounded-full w-8 h-8
                                                 `}>
-                                                -
-                                            </button>
+                                            -
+                                        </button>
 
-                                            <p className="font-bold text-lg">{quantity}</p>
+                                        <p className="font-bold text-lg">{quantity}</p>
 
-                                            <button
-                                                disabled={updateCartItemQuantity.isPending}
-                                                onClick={() => updateCartItemQuantity.mutate({ productId, action: "increase" })}
-                                                className={`
+                                        <button
+                                            disabled={updateCartItemQuantity.isPending}
+                                            onClick={() => updateCartItemQuantity.mutate({ productId, action: "increase" })}
+                                            className={`
                                                     font-semibold flex items-center justify-center 
                                                     text-[20px] bg-gray-400 disabled:cursor-not-allowed 
                                                   hover:bg-gray-500 cursor-pointer transition-all duration-300 
                                                     rounded-full w-8 h-8
                                                 `}>
-                                                +
-                                            </button>
-                                        </section>
-                                    </div>
+                                            +
+                                        </button>
+                                    </section>
                                 </div>
+
+                                <section className="hidden sm:flex sm:gap-2 sm:pl-2">
+                                    <button
+                                        onClick={() => {
+                                            updateCartItemQuantity.mutate({
+                                                productId, action: "decrease"
+
+                                            })
+                                        }}
+                                        disabled={quantity === 1 || updateCartItemQuantity.isPending}
+                                        className={`
+                                                    font-semibold flex items-center justify-center 
+                                                    text-[20px] bg-gray-400 disabled:cursor-not-allowed 
+                                                  hover:bg-gray-500 cursor-pointer transition-all duration-300 
+                                                    rounded-full w-8 h-8
+                                                `}>
+                                        -
+                                    </button>
+
+                                    <p className="font-bold text-lg">{quantity}</p>
+
+                                    <button
+                                        disabled={updateCartItemQuantity.isPending}
+                                        onClick={() => updateCartItemQuantity.mutate({ productId, action: "increase" })}
+                                        className={`
+                                                    font-semibold flex items-center justify-center 
+                                                    text-[20px] bg-gray-400 disabled:cursor-not-allowed 
+                                                  hover:bg-gray-500 cursor-pointer transition-all duration-300 
+                                                    rounded-full w-8 h-8
+                                                `}>
+                                        +
+                                    </button>
+                                </section>
+
                             </div>
                         </section>
                         <div className="mt-2 w-full h-px mb-4 bg-gray-300" />
@@ -436,6 +468,7 @@ export default function CartPage() {
                     </section>
                     <button
                         onClick={() => router.push("/checkout")}
+                        disabled={cart.filter(cart => cart.isSelected).length === 0}
                         className={`
                               disabled:cursor-not-allowed mt-2 flex gap-2 justify-center 
                               items-center w-full bg-blue-400 font-semibold rounded-md text-lg 

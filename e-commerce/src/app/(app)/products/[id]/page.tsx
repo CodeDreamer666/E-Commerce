@@ -114,6 +114,14 @@ export default function ProductDetailClient() {
                         <h2 className="text-lg font-bold">
                             Return Policy: <span className="text-gray-700">{returnPolicy}</span>
                         </h2>
+
+                        <button
+                            onClick={() => {
+                                setIsCartOpen(!isCartOpen);
+                            }}
+                            className="max-md:hidden w-full mt-6 mx-auto bg-black/80 text-white py-2 font-bold rounded-lg hover:bg-white hover:text-black/80 transition-all duration-300 cursor-pointer">
+                            Add to Cart
+                        </button>
                     </div>
                 </section>
 
@@ -202,7 +210,7 @@ export default function ProductDetailClient() {
                                     addCartItem.mutate({
                                         productId: id,
                                         quantity: productQuantity,
-                                        unitPrice:  Number(price.toFixed(2))
+                                        unitPrice: Number(price.toFixed(2))
                                     })
                                 }}
                                 className="mt-4 w-full font-bold text-[20px] bg-black text-white rounded-lg py-1 cursor-pointer hover:bg-gray-200 hover:text-black transition-all duration-300">

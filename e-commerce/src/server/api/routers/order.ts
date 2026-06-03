@@ -91,6 +91,13 @@ export const orderRouter = createTRPCRouter({
                 where: {
                     userId,
                     id: input.orderId
+                },
+                include: {
+                    orderItems: {
+                        include: {
+                            product: true
+                        }
+                    }
                 }
             });
 
@@ -111,6 +118,13 @@ export const orderRouter = createTRPCRouter({
             const orders = await ctx.db.order.findMany({
                 where: {
                     userId
+                },
+                include: {
+                    orderItems: {
+                        include: {
+                            product: true
+                        }
+                    }
                 }
             });
 

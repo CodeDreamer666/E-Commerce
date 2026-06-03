@@ -33,16 +33,6 @@ export type Review = Prisma.ReviewModel
  */
 export type Cart = Prisma.CartModel
 /**
- * Model CheckoutSession
- * 
- */
-export type CheckoutSession = Prisma.CheckoutSessionModel
-/**
- * Model CheckoutItem
- * 
- */
-export type CheckoutItem = Prisma.CheckoutItemModel
-/**
  * Model Order
  * 
  */

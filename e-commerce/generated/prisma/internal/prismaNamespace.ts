@@ -387,8 +387,6 @@ export const ModelName = {
   Product: 'Product',
   Review: 'Review',
   Cart: 'Cart',
-  CheckoutSession: 'CheckoutSession',
-  CheckoutItem: 'CheckoutItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
   User: 'User',
@@ -410,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "product" | "review" | "cart" | "checkoutSession" | "checkoutItem" | "order" | "orderItem" | "user" | "session" | "account" | "verification"
+    modelProps: "product" | "review" | "cart" | "order" | "orderItem" | "user" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -633,154 +631,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CartCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CartCountAggregateOutputType> | number
-        }
-      }
-    }
-    CheckoutSession: {
-      payload: Prisma.$CheckoutSessionPayload<ExtArgs>
-      fields: Prisma.CheckoutSessionFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.CheckoutSessionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.CheckoutSessionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        findFirst: {
-          args: Prisma.CheckoutSessionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.CheckoutSessionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        findMany: {
-          args: Prisma.CheckoutSessionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>[]
-        }
-        create: {
-          args: Prisma.CheckoutSessionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        createMany: {
-          args: Prisma.CheckoutSessionCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.CheckoutSessionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>[]
-        }
-        delete: {
-          args: Prisma.CheckoutSessionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        update: {
-          args: Prisma.CheckoutSessionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        deleteMany: {
-          args: Prisma.CheckoutSessionDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.CheckoutSessionUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.CheckoutSessionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>[]
-        }
-        upsert: {
-          args: Prisma.CheckoutSessionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutSessionPayload>
-        }
-        aggregate: {
-          args: Prisma.CheckoutSessionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCheckoutSession>
-        }
-        groupBy: {
-          args: Prisma.CheckoutSessionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CheckoutSessionGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.CheckoutSessionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CheckoutSessionCountAggregateOutputType> | number
-        }
-      }
-    }
-    CheckoutItem: {
-      payload: Prisma.$CheckoutItemPayload<ExtArgs>
-      fields: Prisma.CheckoutItemFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.CheckoutItemFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.CheckoutItemFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        findFirst: {
-          args: Prisma.CheckoutItemFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.CheckoutItemFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        findMany: {
-          args: Prisma.CheckoutItemFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>[]
-        }
-        create: {
-          args: Prisma.CheckoutItemCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        createMany: {
-          args: Prisma.CheckoutItemCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.CheckoutItemCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>[]
-        }
-        delete: {
-          args: Prisma.CheckoutItemDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        update: {
-          args: Prisma.CheckoutItemUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        deleteMany: {
-          args: Prisma.CheckoutItemDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.CheckoutItemUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.CheckoutItemUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>[]
-        }
-        upsert: {
-          args: Prisma.CheckoutItemUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$CheckoutItemPayload>
-        }
-        aggregate: {
-          args: Prisma.CheckoutItemAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCheckoutItem>
-        }
-        groupBy: {
-          args: Prisma.CheckoutItemGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CheckoutItemGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.CheckoutItemCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CheckoutItemCountAggregateOutputType> | number
         }
       }
     }
@@ -1311,30 +1161,6 @@ export const CartScalarFieldEnum = {
 export type CartScalarFieldEnum = (typeof CartScalarFieldEnum)[keyof typeof CartScalarFieldEnum]
 
 
-export const CheckoutSessionScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  status: 'status',
-  fullName: 'fullName',
-  phoneNumber: 'phoneNumber',
-  deliveryMethod: 'deliveryMethod',
-  paymentMethod: 'paymentMethod'
-} as const
-
-export type CheckoutSessionScalarFieldEnum = (typeof CheckoutSessionScalarFieldEnum)[keyof typeof CheckoutSessionScalarFieldEnum]
-
-
-export const CheckoutItemScalarFieldEnum = {
-  id: 'id',
-  checkoutSessionId: 'checkoutSessionId',
-  productId: 'productId',
-  quantity: 'quantity',
-  totalPrice: 'totalPrice'
-} as const
-
-export type CheckoutItemScalarFieldEnum = (typeof CheckoutItemScalarFieldEnum)[keyof typeof CheckoutItemScalarFieldEnum]
-
-
 export const OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1343,7 +1169,9 @@ export const OrderScalarFieldEnum = {
   phoneNumber: 'phoneNumber',
   deliveryMethod: 'deliveryMethod',
   paymentMethod: 'paymentMethod',
-  totalPrice: 'totalPrice'
+  totalPrice: 'totalPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -1512,16 +1340,16 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'CheckoutSessionStatus'
+ * Reference to a field of type 'OrderStatus'
  */
-export type EnumCheckoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckoutSessionStatus'>
+export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
     
 
 
 /**
- * Reference to a field of type 'CheckoutSessionStatus[]'
+ * Reference to a field of type 'OrderStatus[]'
  */
-export type ListEnumCheckoutSessionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckoutSessionStatus[]'>
+export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
     
 
 
@@ -1550,20 +1378,6 @@ export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PaymentMethod[]'
  */
 export type ListEnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod[]'>
-    
-
-
-/**
- * Reference to a field of type 'OrderStatus'
- */
-export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
-    
-
-
-/**
- * Reference to a field of type 'OrderStatus[]'
- */
-export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
     
 
 
@@ -1693,8 +1507,6 @@ export type GlobalOmitConfig = {
   product?: Prisma.ProductOmit
   review?: Prisma.ReviewOmit
   cart?: Prisma.CartOmit
-  checkoutSession?: Prisma.CheckoutSessionOmit
-  checkoutItem?: Prisma.CheckoutItemOmit
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
   user?: Prisma.UserOmit

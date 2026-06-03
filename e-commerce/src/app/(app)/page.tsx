@@ -2,13 +2,13 @@
 import { api } from "~/trpc/react"
 import { useState } from "react"
 import Link from "next/link"
-import Loader from "./components/shared/Loader"
-import ServerError from "./components/shared/ServerError"
+import Loader from "../components/shared/Loader"
+import ServerError from "../components/shared/ServerError"
 
 export default function Shop() {
     const { data: products, isLoading, error } = api.products.getAllProduct.useQuery()
     const [searchInput, setSearchInput] = useState("");
-
+    
     if (isLoading) return <Loader />
 
     if (error || !products) return <ServerError />
