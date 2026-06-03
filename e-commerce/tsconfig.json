@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "ES2023",
-    "strict": true,
-    "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
     /* Base Options: */
+    "esModuleInterop": true,
     "skipLibCheck": true,
+    "target": "es2022",
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     /* Strictness */
+    "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
     /* Bundled projects */
@@ -23,6 +20,8 @@
       "ES2022"
     ],
     "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "plugins": [
       {
@@ -31,7 +30,6 @@
     ],
     "incremental": true,
     /* Path Aliases */
-    "baseUrl": ".",
     "paths": {
       "~/*": [
         "./src/*"
