@@ -70,7 +70,7 @@ export default function ProductDetailClient() {
     }
 
     return (
-        <section className="bg-[linear-gradient(to_bottom_right,#ffffff,#f5f5f5)] w-full">
+        <section className="bg-gradient-to-b from-blue-50/60 via-white to-white w-full min-h-screen">
 
             <StatusMessage
                 isSuccess={isSuccess}
@@ -82,77 +82,86 @@ export default function ProductDetailClient() {
             />
 
             <div className="p-4 md:p-8">
-                <section className="grid md:grid-cols-[350px_1fr] md:mt-20 md:items-center md:justify-center lg:grid-cols-[480px_1fr] lg:max-w-260 lg:mx-auto">
-                    <img
-                        className="mt-16 w-full max-h-75 object-contain"
-                        src={image}
-                        alt={`A picture of ${title}`}
-                    />
+                <section className="grid gap-6 md:grid-cols-[360px_1fr] md:gap-12 md:mt-20 md:items-center lg:grid-cols-[440px_1fr] lg:max-w-260 lg:mx-auto">
+
+                    <div className="mt-16 md:mt-0 bg-white rounded-3xl border border-slate-100 shadow-md aspect-square flex items-center justify-center overflow-hidden">
+                        <img
+                            className="w-full h-full object-contain p-8"
+                            src={image}
+                            alt={`A picture of ${title}`}
+                        />
+                    </div>
 
                     <div>
-                        <div className="flex flex-row gap-4 items-center justify-between">
-                            <h1 className="font-bold text-2xl">{title}</h1>
-                            <span className="text-black/80 font-bold text-xl">${price.toFixed(2)}</span>
+                        <div className="flex flex-row gap-4 items-start justify-between">
+                            <h1 className="font-bold text-2xl sm:text-3xl text-slate-900 tracking-tight">{title}</h1>
+                            <span className="text-blue-600 font-bold text-xl sm:text-2xl whitespace-nowrap">${price.toFixed(2)}</span>
                         </div>
 
-                        <p className="ml-4 mt-2 text-gray-700 font-semibold">
+                        <p className="mt-3 text-slate-600 leading-relaxed">
                             {description}
                         </p>
 
-                        <h2 className="mt-6 text-lg font-bold">
-                            Stock: <span className="text-gray-700">{stock} ( {availabilityStatus} )</span>
-                        </h2>
+                        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
+                                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Stock</p>
+                                <p className="mt-1 text-sm font-medium text-slate-800">{stock} units · {availabilityStatus}</p>
+                            </div>
 
-                        <h2 className="text-lg font-bold">
-                            Shipping Information: <span className="text-gray-700">{shippingInformation}</span>
-                        </h2>
+                            <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
+                                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Shipping</p>
+                                <p className="mt-1 text-sm font-medium text-slate-800">{shippingInformation}</p>
+                            </div>
 
-                        <h2 className="text-lg font-bold">
-                            Warranty Information: <span className="text-gray-700">{warrantyInformation}</span>
-                        </h2>
+                            <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
+                                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Warranty</p>
+                                <p className="mt-1 text-sm font-medium text-slate-800">{warrantyInformation}</p>
+                            </div>
 
-                        <h2 className="text-lg font-bold">
-                            Return Policy: <span className="text-gray-700">{returnPolicy}</span>
-                        </h2>
+                            <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
+                                <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Returns</p>
+                                <p className="mt-1 text-sm font-medium text-slate-800">{returnPolicy}</p>
+                            </div>
+                        </div>
 
                         <button
                             onClick={() => {
                                 setIsCartOpen(!isCartOpen);
                             }}
-                            className="max-md:hidden w-full mt-6 mx-auto bg-black/80 text-white py-2 font-bold rounded-lg hover:bg-white hover:text-black/80 transition-all duration-300 cursor-pointer">
-                            Add to Cart
+                            className="max-md:hidden w-full mt-6 bg-blue-600 text-white py-3 font-semibold rounded-xl hover:bg-blue-700 active:scale-[0.99] shadow-sm transition-all duration-200 cursor-pointer">
+                            Add to cart
                         </button>
                     </div>
                 </section>
 
                 {review ? (
-                    <section className="max-w-260 mx-auto">
-                        <h2 className="text-lg font-bold mt-4">Reviews: </h2>
+                    <section className="max-w-260 mx-auto mt-10">
+                        <h2 className="text-lg font-bold text-slate-900">Reviews</h2>
 
-                        <ul className="w-full flex flex-col gap-4 mt-2 mb-6 lg:grid lg:grid-cols-2">
+                        <ul className="w-full flex flex-col gap-4 mt-3 mb-6 lg:grid lg:grid-cols-2">
                             {review.map(({ rating, createdAt, comment, id, name }) => {
                                 return (
                                     <li
                                         key={id}
-                                        className="w-full bg-white shadow-md rounded-lg p-4 border border-gray-200"
+                                        className="w-full bg-white shadow-sm rounded-2xl p-4 border border-slate-100"
                                     >
                                         <div className="flex items-center justify-between mb-2">
-                                            <h3 className="font-semibold text-lg">{name}</h3>
-                                            <p className="text-gray-500 text-sm">{formatDate(createdAt)}</p>
+                                            <h3 className="font-semibold text-slate-900">{name}</h3>
+                                            <p className="text-slate-400 text-sm">{formatDate(createdAt)}</p>
                                         </div>
 
                                         <div className="flex items-center mb-2">
-                                            <span className="font-bold text-yellow-600">{rating}★</span>
+                                            <span className="font-bold text-amber-500">{rating}★</span>
                                         </div>
 
-                                        <p className="text-gray-700">{comment}</p>
+                                        <p className="text-slate-600">{comment}</p>
                                     </li>
                                 )
                             })}
                         </ul>
                     </section>
                 ) :
-                    <p className="font-semibold mt-4 text-[20px]">
+                    <p className="font-semibold mt-8 text-lg text-slate-400 text-center">
                         No reviews available
                     </p>
                 }
@@ -161,8 +170,8 @@ export default function ProductDetailClient() {
                     onClick={() => {
                         setIsCartOpen(!isCartOpen);
                     }}
-                    className="md:hidden w-full mt-6 mx-auto bg-black/80 text-white py-2 font-bold rounded-lg hover:bg-white hover:text-black/80 transition-all duration-300 cursor-pointer">
-                    Add to Cart
+                    className="md:hidden w-full mt-6 bg-blue-600 text-white py-3 font-semibold rounded-xl hover:bg-blue-700 active:scale-[0.99] shadow-sm transition-all duration-200 cursor-pointer">
+                    Add to cart
                 </button>
             </div>
 
@@ -170,40 +179,47 @@ export default function ProductDetailClient() {
                 <>
                     <section
                         onClick={() => setIsCartOpen(false)}
-                        className="fixed inset-0 z-50 mx-auto flex justify-center items-center">
+                        className="fixed inset-0 z-50 mx-auto flex justify-center items-center px-4">
                         <div
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-white shadow-lg p-4 rounded-lg w-[95%] max-w-100">
-                            <div className="flex justify-between">
-                                <h1 className="text-3xl font-bold">Cart</h1>
+                            className="bg-white shadow-2xl p-5 rounded-3xl w-full max-w-100">
+                            <div className="flex justify-between items-center">
+                                <h1 className="text-2xl font-bold text-slate-900">Cart</h1>
                                 <button
                                     onClick={() => setIsCartOpen(false)}
-                                    className="font-semibold mr-2 cursor-pointer hover:scale-120 transition-all duration-300">
-                                    X
+                                    aria-label="Close"
+                                    className="h-8 w-8 grid place-items-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 font-semibold cursor-pointer transition-colors duration-200">
+                                    ×
                                 </button>
                             </div>
-                            <img src={image} alt={`A picture of ${title}`} className="object-contain w-6/10 mx-auto" />
-                            <div className="flex gap-4 items-center">
-                                <h2 className="text-2xl font-semibold">Quantity:</h2>
-                                <div className="flex gap-4 items-center">
+
+                            <div className="bg-slate-50 rounded-2xl mt-4 flex items-center justify-center overflow-hidden">
+                                <img src={image} alt={`A picture of ${title}`} className="object-contain w-3/5 h-3/5" />
+                            </div>
+
+                            <div className="flex gap-4 items-center justify-between mt-5">
+                                <h2 className="text-base font-semibold text-slate-900">Quantity</h2>
+                                <div className="flex gap-3 items-center">
                                     <button
                                         onClick={() => setProductQuantity(productQuantity - 1)}
                                         disabled={productQuantity === 1}
-                                        className="font-bold disabled:cursor-not-allowed text-lg hover:bg-gray-500 transition-all duration-300 bg-gray-300 px-6 py-2 rounded-full cursor-pointer">
+                                        className="font-bold disabled:opacity-40 disabled:cursor-not-allowed text-lg text-blue-600 hover:bg-blue-100 transition-colors duration-200 bg-blue-50 w-10 h-10 rounded-full cursor-pointer">
                                         -
                                     </button>
-                                    <p className="font-bold text-[20px]">{productQuantity}</p>
+                                    <p className="font-bold text-lg text-slate-900 min-w-6 text-center">{productQuantity}</p>
                                     <button
                                         onClick={() => setProductQuantity(productQuantity + 1)}
-                                        className="font-bold text-lg hover:bg-gray-500 transition-all duration-300 bg-gray-300 px-6 py-2 rounded-full cursor-pointer">
+                                        className="font-bold text-lg text-blue-600 hover:bg-blue-100 transition-colors duration-200 bg-blue-50 w-10 h-10 rounded-full cursor-pointer">
                                         +
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex gap-4 items-center">
-                                <h2 className="text-2xl font-semibold">Price:</h2>
-                                <p className="font-bold text-[20px] mt-0.5">${Number((price * productQuantity).toFixed(2))}</p>
+
+                            <div className="flex gap-4 items-center justify-between mt-3 pt-3 border-t border-slate-100">
+                                <h2 className="text-base font-semibold text-slate-900">Total</h2>
+                                <p className="font-bold text-xl text-blue-600">${Number((price * productQuantity).toFixed(2))}</p>
                             </div>
+
                             <button
                                 onClick={() => {
                                     setIsCartOpen(false);
@@ -213,13 +229,13 @@ export default function ProductDetailClient() {
                                         unitPrice: Number(price.toFixed(2))
                                     })
                                 }}
-                                className="mt-4 w-full font-bold text-[20px] bg-black text-white rounded-lg py-1 cursor-pointer hover:bg-gray-200 hover:text-black transition-all duration-300">
-                                Add to Cart
+                                className="mt-5 w-full font-semibold text-base bg-blue-600 text-white rounded-xl py-3 cursor-pointer hover:bg-blue-700 active:scale-[0.99] shadow-sm transition-all duration-200">
+                                Add to cart
                             </button>
                         </div>
                     </section>
 
-                    <div className="bg-black/40 inset-0 fixed cursor-pointer z-40" />
+                    <div className="bg-slate-900/30 backdrop-blur-sm inset-0 fixed cursor-pointer z-40" />
                 </>
             )}
         </section>

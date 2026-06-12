@@ -11,14 +11,16 @@ export default function ServerError() {
     }, [refresh])
 
     return (
-        <section className="fixed inset-0 flex items-center justify-center bg-slate-50/50 backdrop-blur-sm px-4 z-50">
-            <div className="w-full max-w-md overflow-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-red-100 p-8 text-center transition-all animate-in fade-in zoom-in duration-300">
+        <section className="fixed inset-0 flex items-center justify-center bg-blue-50/40 backdrop-blur-sm px-4 z-50">
+            <div className="w-full max-w-md overflow-hidden bg-white rounded-3xl shadow-xl border border-slate-100 p-8 text-center transition-all animate-in fade-in zoom-in duration-300">
 
-                <svg className="size-12 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                </svg>
+                <div className="mx-auto h-14 w-14 rounded-2xl bg-red-50 flex items-center justify-center">
+                    <svg className="size-7 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                </div>
 
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">
+                <h2 className="text-2xl font-bold text-slate-900 tracking-tight mt-5 mb-2">
                     Something went wrong
                 </h2>
 
@@ -31,7 +33,7 @@ export default function ServerError() {
                         onClick={() => {
                             setRefresh(true)
                         }}
-                        className="w-full inline-flex cursor-pointer items-center justify-center px-6 py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 active:scale-[0.98] transition-all shadow-sm"
+                        className="w-full inline-flex cursor-pointer items-center justify-center px-6 py-3.5 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-sm"
                     >
                         Try again
                     </button>

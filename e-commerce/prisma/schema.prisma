@@ -41,7 +41,7 @@ model Review {
     email     String
     createdAt DateTime @default(now())
     product   Product? @relation(fields: [productId], references: [id])
-    productId Int
+    productId Int?
 }
 
 model Cart {

@@ -111,7 +111,7 @@ export default function ShippingAddress() {
     }, 0);
 
     return (
-        <section className="bg-[linear-gradient(to_bottom_right,#ffffff,#f5f5f5)] mt-16 flex flex-col justify-center items-center w-full min-h-[90vh] px-4 pb-6 pt-4">
+        <section className="bg-gradient-to-b from-blue-50/60 via-white to-white mt-16 flex flex-col justify-center items-center w-full min-h-[90vh] px-4 pb-6 pt-6">
 
             <StatusMessage
                 isSuccess={isSuccess}
@@ -139,11 +139,11 @@ export default function ShippingAddress() {
 
                         placeOrder.mutate(result.data);
                     }}
-                    className="shadow-md rounded-md flex flex-col p-4 "
+                    className="bg-white shadow-md border border-slate-100 rounded-3xl flex flex-col p-5 sm:p-6"
                 >
 
                     <FormTitle
-                        heading="Delivery Information"
+                        heading="Delivery information"
                         subHeading="Enter your contact and delivery details"
                     />
 
@@ -161,8 +161,8 @@ export default function ShippingAddress() {
 
                     <section className="flex flex-col mb-4">
                         <div className="flex gap-1 mb-2">
-                            <label htmlFor="delivery-method" className="font-semibold text">Delivery Option</label>
-                            <span className="text-red-500">*</span>
+                            <label htmlFor="delivery-method" className="font-semibold text-slate-700 text-sm">Delivery option</label>
+                            <span className="text-blue-500">*</span>
                         </div>
                         <select
                             value={formInput.deliveryMethod}
@@ -182,7 +182,7 @@ export default function ShippingAddress() {
                             }}
                             id="delivery-method"
                             name="delivery-method"
-                            className="transition-all duration-300 ease-in-out outline-none cursor-text focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:shadow-md border-gray-300 border w-full rounded-md h-10 px-4 text-sm"
+                            className="transition-all duration-200 ease-in-out outline-none cursor-pointer focus:border-blue-400 focus:ring-2 focus:ring-blue-100 border-slate-200 bg-white border w-full rounded-xl h-11 px-4 text-sm text-slate-900"
                         >
                             <option value="">Please select a delivery method</option>
                             <option value="Standard">Standard</option>
@@ -192,8 +192,8 @@ export default function ShippingAddress() {
 
                     <section className="flex flex-col mb-4">
                         <div className="flex gap-1 mb-2">
-                            <label htmlFor="payment-method" className="font-semibold text">Payment Method</label>
-                            <span className="text-red-500">*</span>
+                            <label htmlFor="payment-method" className="font-semibold text-slate-700 text-sm">Payment method</label>
+                            <span className="text-blue-500">*</span>
                         </div>
                         <select
                             value={formInput.paymentMethod}
@@ -205,7 +205,7 @@ export default function ShippingAddress() {
                             })}
                             id="payment-method"
                             name="payment-method"
-                            className="transition-all duration-300 ease-in-out outline-none cursor-text focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:shadow-md border-gray-300 border w-full rounded-md h-10 px-4 text-sm"
+                            className="transition-all duration-200 ease-in-out outline-none cursor-pointer focus:border-blue-400 focus:ring-2 focus:ring-blue-100 border-slate-200 bg-white border w-full rounded-xl h-11 px-4 text-sm text-slate-900"
                         >
                             <option value="">Please select a payment method</option>
                             <option value="Cash">Cash</option>
@@ -215,35 +215,37 @@ export default function ShippingAddress() {
                     </section>
 
                     <FormTitle
-                        heading="Order Summary"
+                        heading="Order summary"
                         subHeading="Review your selected items before completing your purchase"
                     />
 
-                    <section className="mb-4 grid xs:mx-auto md:max-w-4xl">
+                    <section className="mb-4 flex flex-col gap-3">
                         {checkoutItemsInfo.map(({ totalPrice, quantity, product }, index) => {
                             return (
-                                <section key={index} className="flex flex-col gap-4 xs:grid xs:grid-cols-2 xs:gap-2 xs:justify-center xs:items-center ">
+                                <section key={index} className="flex gap-4 items-center bg-slate-50 rounded-2xl p-3">
 
-                                    <img
-                                        src={product.image}
-                                        className="object-contain max-h-50 mx-auto"
-                                        alt={`A picture of ${product.title}`}
-                                    />
+                                    <div className="bg-white rounded-xl shrink-0 w-20 h-20 flex items-center justify-center overflow-hidden border border-slate-100">
+                                        <img
+                                            src={product.image}
+                                            className="object-contain max-h-16 max-w-16"
+                                            alt={`A picture of ${product.title}`}
+                                        />
+                                    </div>
 
-                                    <div className="flex flex-col gap-2">
-                                        <h2 className="text-[26px] font-semibold text-gray-900">{product.title}</h2>
+                                    <div className="flex flex-col gap-1.5 min-w-0">
+                                        <h2 className="text-base font-semibold text-slate-900 truncate">{product.title}</h2>
 
-                                        <p className="flex items-center gap-2 text-[20px]">
-                                            <span className="text-gray-500 font-medium">Quantity:</span>
-                                            <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
+                                        <p className="flex items-center gap-2 text-sm text-slate-500">
+                                            <span>Quantity:</span>
+                                            <span className="px-2 py-0.5 bg-blue-50 rounded-md text-blue-700 font-semibold">
                                                 {quantity}
                                             </span>
                                         </p>
 
-                                        <p className="flex items-center gap-2 text-[20px]">
-                                            <span className="text-gray-500 font-medium">Subtotal:</span>
-                                            <span className="px-3 py-0.5 bg-gray-100 rounded-md text-gray-900 font-semibold">
-                                                {Number(totalPrice)}
+                                        <p className="flex items-center gap-2 text-sm text-slate-500">
+                                            <span>Subtotal:</span>
+                                            <span className="px-2 py-0.5 bg-blue-50 rounded-md text-blue-700 font-semibold">
+                                                ${Number(totalPrice)}
                                             </span>
                                         </p>
                                     </div>
@@ -252,22 +254,22 @@ export default function ShippingAddress() {
                         })}
                     </section>
 
-                    <section className="mt-6 border-t border-gray-200 pt-4">
+                    <section className="mt-2 border-t border-slate-100 pt-4">
                         <div className="space-y-3">
 
-                            <div className="flex justify-between text-gray-600">
+                            <div className="flex justify-between text-slate-500 text-sm">
                                 <span>Subtotal</span>
                                 <span>${subtotal.toFixed(2)}</span>
                             </div>
 
-                            <div className="flex justify-between text-gray-600">
+                            <div className="flex justify-between text-slate-500 text-sm">
                                 <span>Shipping</span>
                                 <span>${shippingFee.toFixed(2)}</span>
                             </div>
 
-                            <div className="border-t border-gray-200 pt-3 flex justify-between text-xl font-semibold text-gray-900">
+                            <div className="border-t border-slate-100 pt-3 flex justify-between text-lg font-semibold text-slate-900">
                                 <span>Total</span>
-                                <span>
+                                <span className="text-blue-600">
                                     ${(subtotal + shippingFee).toFixed(2)}
                                 </span>
                             </div>
@@ -278,7 +280,7 @@ export default function ShippingAddress() {
                     <button
                         type="submit"
                         disabled={placeOrder.isPending}
-                        className="cursor-pointer disabled:cursor-not-allowed px-4 py-2 mt-8 block text-center w-full bg-blue-600 text-white font-medium rounded-md text-lg shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-[0.98]">
+                        className="cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed px-4 py-3 mt-6 block text-center w-full bg-blue-600 text-white font-semibold rounded-xl text-base shadow-sm transition-all duration-200 hover:bg-blue-700 active:scale-[0.99]">
                         {placeOrder.isPending ? (
                             <div className="flex items-center justify-center gap-2">
                                 <LoadingIcon />

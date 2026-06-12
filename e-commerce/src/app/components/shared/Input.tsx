@@ -12,8 +12,8 @@ export default function Input({ displayText, text, value, onChange, type = "text
     return (
         <div className="mb-4">
             <div className="flex gap-1 mb-2">
-                <label htmlFor={text} className="font-semibold text">{displayText}</label>
-                <span className="text-red-500">*</span>
+                <label htmlFor={text} className="font-semibold text-slate-700 text-sm">{displayText}</label>
+                <span className="text-blue-500">*</span>
             </div>
             <input
                 autoComplete="off"
@@ -25,7 +25,7 @@ export default function Input({ displayText, text, value, onChange, type = "text
                 onChange={onChange}
                 placeholder={placeholder}
                 readOnly={isReadOnly}
-                className="transition-all duration-300 ease-in-out outline-none cursor-text focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:shadow-md border-gray-300 border w-full rounded-md h-10 px-4 text-sm"
+                className="transition-all duration-200 ease-in-out outline-none cursor-text focus:border-blue-400 focus:ring-2 focus:ring-blue-100 border-slate-200 bg-white border w-full rounded-xl h-11 px-4 text-sm text-slate-900 placeholder:text-slate-400 read-only:bg-slate-50 read-only:cursor-default"
             />
         </div>
     )

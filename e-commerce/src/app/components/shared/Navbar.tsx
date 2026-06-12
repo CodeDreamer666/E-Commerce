@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation";
 import { authClient } from "~/server/better-auth/client";
 import { useRouter } from "next/navigation";
-import Logout from "./Logout";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +40,16 @@ export default function Navbar() {
 
             {userSession?.user.name != null ? (
                 <>
-                    <Logout onClick={() => signOut()} />
+                    <button
+                        onClick={() => signOut()}
+                        className="flex items-center gap-3 text-[15px] font-medium text-slate-600 hover:text-red-600 px-4 py-2.5 rounded-full hover:bg-red-50 active:scale-[0.97] cursor-pointer transition-all duration-200 w-full sm:w-auto text-left"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                        </svg>
+                        Logout
+                    </button>
+
                     <Navigation
                         displayText="Order"
                         path="/order"
@@ -78,37 +86,50 @@ export default function Navbar() {
 
     return (
         <header>
-            <nav className="z-50 h-16 fixed w-full bg-[linear-gradient(to_bottom_right,#2895d7,#53AADF,#2895d7)] flex items-center shadow-md px-4">
+            <nav className="h-16 z-50 fixed top-0 w-full bg-white/80 backdrop-blur-xl border-b border-slate-200/70 flex items-center px-4 sm:px-6">
                 <div className="flex w-full justify-between items-center max-w-6xl mx-auto">
 
-                    <p className="font-semibold text-lg text-black">
-                        Welcome, {userSession?.user.name ?? "Guest"}
-                    </p>
+                    <div className="flex items-center gap-2.5">
+                        <div className="h-9 w-9 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold text-base shadow-sm">
+                            S
+                        </div>
+                        <p className="font-semibold text-[15px] sm:text-lg text-slate-900 tracking-tight">
+                            Welcome, <span className="text-blue-600">{userSession?.user.name ?? "Guest"}</span>
+                        </p>
+                    </div>
 
-                    <ul className="hidden sm:flex items-center gap-2">
+                    <ul className="hidden sm:flex items-center gap-1">
                         {navLinks}
                     </ul>
 
                     <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="sm:hidden text-3xl text-black font-bold cursor-pointer hover:scale-105 transition-all duration-300"
+                        className="sm:hidden h-10 w-10 grid place-items-center rounded-full bg-blue-50 text-blue-600 active:scale-95 transition-transform duration-200"
                         aria-label="Toggle Menu"
                     >
-                        &#9776;
+                        {isOpen ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+                            </svg>
+                        )}
                     </button>
                 </div>
 
-                <ul className={`fixed top-0 left-0 h-screen w-64 bg-gray-200 p-6 shadow-2xl z-60 flex flex-col gap-4 transform transition-transform duration-500 ease-in-out sm:hidden ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
+                <ul className={`fixed top-0 left-0 h-screen w-72 bg-white p-6 shadow-2xl z-60 flex flex-col gap-1 transform transition-transform duration-500 ease-in-out sm:hidden ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
                     {navLinks}
                 </ul>
-
-                {isOpen && (
-                    <div
-                        onClick={() => setIsOpen(false)}
-                        className="fixed inset-0 bg-black/50 z-55 sm:hidden"
-                    />
-                )}
             </nav>
+
+            {isOpen && (
+                <div
+                    onClick={() => setIsOpen(false)}
+                    className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-30 sm:hidden"
+                />
+            )}
         </header>
     );
 }

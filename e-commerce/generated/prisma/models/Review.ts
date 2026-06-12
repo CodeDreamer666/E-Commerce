@@ -206,7 +206,7 @@ export type ReviewGroupByOutputType = {
   name: string
   email: string
   createdAt: Date
-  productId: number
+  productId: number | null
   _count: ReviewCountAggregateOutputType | null
   _avg: ReviewAvgAggregateOutputType | null
   _sum: ReviewSumAggregateOutputType | null
@@ -239,7 +239,7 @@ export type ReviewWhereInput = {
   name?: Prisma.StringFilter<"Review"> | string
   email?: Prisma.StringFilter<"Review"> | string
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string
-  productId?: Prisma.IntFilter<"Review"> | number
+  productId?: Prisma.IntNullableFilter<"Review"> | number | null
   product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }
 
@@ -250,7 +250,7 @@ export type ReviewOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
@@ -264,7 +264,7 @@ export type ReviewWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Review"> | string
   email?: Prisma.StringFilter<"Review"> | string
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string
-  productId?: Prisma.IntFilter<"Review"> | number
+  productId?: Prisma.IntNullableFilter<"Review"> | number | null
   product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }, "id">
 
@@ -275,7 +275,7 @@ export type ReviewOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  productId?: Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReviewCountOrderByAggregateInput
   _avg?: Prisma.ReviewAvgOrderByAggregateInput
   _max?: Prisma.ReviewMaxOrderByAggregateInput
@@ -293,7 +293,7 @@ export type ReviewScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Review"> | string
   email?: Prisma.StringWithAggregatesFilter<"Review"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Review"> | Date | string
-  productId?: Prisma.IntWithAggregatesFilter<"Review"> | number
+  productId?: Prisma.IntNullableWithAggregatesFilter<"Review"> | number | null
 }
 
 export type ReviewCreateInput = {
@@ -312,7 +312,7 @@ export type ReviewUncheckedCreateInput = {
   name: string
   email: string
   createdAt?: Date | string
-  productId: number
+  productId?: number | null
 }
 
 export type ReviewUpdateInput = {
@@ -331,7 +331,7 @@ export type ReviewUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productId?: Prisma.IntFieldUpdateOperationsInput | number
+  productId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ReviewCreateManyInput = {
@@ -341,7 +341,7 @@ export type ReviewCreateManyInput = {
   name: string
   email: string
   createdAt?: Date | string
-  productId: number
+  productId?: number | null
 }
 
 export type ReviewUpdateManyMutationInput = {
@@ -359,7 +359,7 @@ export type ReviewUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  productId?: Prisma.IntFieldUpdateOperationsInput | number
+  productId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type ReviewListRelationFilter = {
@@ -460,6 +460,14 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type ReviewCreateWithoutProductInput = {
   rating: runtime.Decimal | runtime.DecimalJsLike | number | string
   comment: string
@@ -513,7 +521,7 @@ export type ReviewScalarWhereInput = {
   name?: Prisma.StringFilter<"Review"> | string
   email?: Prisma.StringFilter<"Review"> | string
   createdAt?: Prisma.DateTimeFilter<"Review"> | Date | string
-  productId?: Prisma.IntFilter<"Review"> | number
+  productId?: Prisma.IntNullableFilter<"Review"> | number | null
 }
 
 export type ReviewCreateManyProductInput = {
@@ -619,7 +627,7 @@ export type $ReviewPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     name: string
     email: string
     createdAt: Date
-    productId: number
+    productId: number | null
   }, ExtArgs["result"]["review"]>
   composites: {}
 }

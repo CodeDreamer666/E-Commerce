@@ -9,47 +9,47 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
     const getStatusStyle = (status: string) => {
         switch (status) {
             case "PAID":
-                return "bg-blue-100 text-blue-700";
+                return "bg-blue-50 text-blue-700";
 
             case "CANCELLED":
-                return "bg-red-100 text-red-700";
+                return "bg-red-50 text-red-700";
 
             default:
-                return "bg-gray-100 text-gray-700";
+                return "bg-slate-100 text-slate-600";
         }
     };
 
     return (
-        <main className="min-h-screen mt-16 bg-[linear-gradient(to_bottom_right,#ffffff,#f5f5f5)] p-4">
-            <section className="mx-auto max-w-4xl space-y-5">
-                <div className="flex justify-between items-center">
+        <main className="min-h-screen mt-16 bg-gradient-to-b from-blue-50/60 via-white to-white p-4">
+            <section className="mx-auto max-w-4xl space-y-4 pb-8">
+                <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center pt-2">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">
-                            Order Details
+                        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                            Order details
                         </h1>
 
-                        <p className="mt-2 text-gray-500">
+                        <p className="mt-1 text-slate-500">
                             Review information about your order.
                         </p>
                     </div>
 
                     <Link
                         href="/order"
-                        className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-blue-600"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 transition hover:text-blue-700"
                     >
-                        ← My Orders
+                        ← My orders
                     </Link>
                 </div>
 
-                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-900">
+                            <h2 className="text-xl font-semibold text-slate-900">
                                 Order #{order.id.slice(-6).toUpperCase()}
                             </h2>
 
-                            <p className="mt-1 text-gray-500">
+                            <p className="mt-1 text-slate-500">
                                 {new Date(
                                     order.createdAt
                                 ).toLocaleDateString()}
@@ -57,7 +57,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
                         </div>
 
                         <span
-                            className={`w-fit rounded-full px-4 py-2 text-sm font-medium ${getStatusStyle(
+                            className={`w-fit rounded-full px-4 py-2 text-sm font-semibold ${getStatusStyle(
                                 order.status
                             )}`}
                         >
@@ -69,30 +69,30 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
                 </section>
 
                 {/* Customer Information */}
-                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
 
-                    <h2 className="mb-5 text-lg font-semibold text-gray-900">
-                        Customer Information
+                    <h2 className="mb-5 text-lg font-semibold text-slate-900">
+                        Customer information
                     </h2>
 
-                    <div className="space-y-4 sm:grid sm:grid-cols-2">
+                    <div className="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4">
 
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Full Name
+                        <div className="bg-slate-50 rounded-2xl p-4">
+                            <p className="text-sm text-slate-400">
+                                Full name
                             </p>
 
-                            <p className="font-medium text-gray-900">
+                            <p className="font-semibold text-slate-900 mt-0.5">
                                 {order.fullName}
                             </p>
                         </div>
 
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Phone Number
+                        <div className="bg-slate-50 rounded-2xl p-4">
+                            <p className="text-sm text-slate-400">
+                                Phone number
                             </p>
 
-                            <p className="font-medium text-gray-900">
+                            <p className="font-semibold text-slate-900 mt-0.5">
                                 {order.phoneNumber}
                             </p>
                         </div>
@@ -102,30 +102,30 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
                 </section>
 
                 {/* Delivery & Payment */}
-                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
 
-                    <h2 className="mb-5 text-lg font-semibold text-gray-900">
-                        Delivery & Payment
+                    <h2 className="mb-5 text-lg font-semibold text-slate-900">
+                        Delivery & payment
                     </h2>
 
-                    <div className="grid gap-5 sm:grid-cols-2">
+                    <div className="grid gap-4 sm:grid-cols-2">
 
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Delivery Method
+                        <div className="bg-slate-50 rounded-2xl p-4">
+                            <p className="text-sm text-slate-400">
+                                Delivery method
                             </p>
 
-                            <p className="font-medium text-gray-900">
+                            <p className="font-semibold text-slate-900 mt-0.5">
                                 {order.deliveryMethod}
                             </p>
                         </div>
 
-                        <div>
-                            <p className="text-sm text-gray-500">
-                                Payment Method
+                        <div className="bg-slate-50 rounded-2xl p-4">
+                            <p className="text-sm text-slate-400">
+                                Payment method
                             </p>
 
-                            <p className="font-medium text-gray-900">
+                            <p className="font-semibold text-slate-900 mt-0.5">
                                 {order.paymentMethod}
                             </p>
                         </div>
@@ -135,41 +135,41 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
                 </section>
 
                 {/* Products */}
-                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
 
-                    <h2 className="mb-5 text-lg font-semibold text-gray-900">
-                        Ordered Items
+                    <h2 className="mb-5 text-lg font-semibold text-slate-900">
+                        Ordered items
                     </h2>
 
-                    <div className="space-y-4">
+                    <div className="flex flex-col gap-3">
 
                         {order.orderItems.map((item) => (
                             <div
                                 key={item.id}
-                                className="flex gap-4 border-b border-gray-100 pb-4 last:border-none"
+                                className="flex gap-4 items-center bg-slate-50 rounded-2xl p-3"
                             >
 
-                                <img
-                                    src={item.product.image}
-                                    alt={item.product.title}
-                                    width={80}
-                                    height={80}
-                                    className="rounded-lg border border-gray-200 object-cover"
-                                />
+                                <div className="bg-white rounded-xl shrink-0 w-16 h-16 flex items-center justify-center overflow-hidden border border-slate-100">
+                                    <img
+                                        src={item.product.image}
+                                        alt={item.product.title}
+                                        className="object-contain max-h-12 max-w-12"
+                                    />
+                                </div>
 
-                                <div className="flex flex-1 items-center justify-between">
+                                <div className="flex flex-1 items-center justify-between min-w-0">
 
-                                    <div>
-                                        <h3 className="font-medium text-gray-900">
+                                    <div className="min-w-0">
+                                        <h3 className="font-semibold text-slate-900 truncate">
                                             {item.product.title}
                                         </h3>
 
-                                        <p className="mt-1 text-sm text-gray-500">
+                                        <p className="mt-1 text-sm text-slate-500">
                                             Quantity: {item.quantity}
                                         </p>
                                     </div>
 
-                                    <p className="font-semibold text-gray-900">
+                                    <p className="font-bold text-blue-600 whitespace-nowrap pl-4">
                                         ${item.product.price.toFixed(2)}
                                     </p>
 
@@ -183,27 +183,27 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ o
                 </section>
 
                 {/* Price Summary */}
-                <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
 
-                    <h2 className="mb-5 text-lg font-semibold text-gray-900">
+                    <h2 className="mb-5 text-lg font-semibold text-slate-900">
                         Summary
                     </h2>
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
 
-                        <div className="flex justify-between text-gray-600">
+                        <div className="flex justify-between text-slate-500 text-sm">
                             <span>Subtotal</span>
                             <span>${(Number(order.totalPrice) - shippingFee).toFixed(2)}</span>
                         </div>
 
-                        <div className="flex justify-between text-gray-600">
-                            <span>Shipping Fee</span>
+                        <div className="flex justify-between text-slate-500 text-sm">
+                            <span>Shipping fee</span>
                             <span>${shippingFee}</span>
                         </div>
 
-                        <div className="border-t border-gray-200 pt-4 flex justify-between text-xl font-semibold text-gray-900">
+                        <div className="border-t border-slate-100 pt-3 flex justify-between text-lg font-semibold text-slate-900">
                             <span>Total</span>
-                            <span>${order.totalPrice.toFixed(2)}</span>
+                            <span className="text-blue-600">${order.totalPrice.toFixed(2)}</span>
                         </div>
                     </div>
                 </section>
